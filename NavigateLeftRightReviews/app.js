@@ -53,28 +53,69 @@ const job = document.querySelector("#job");
 const info = document.querySelector("#info");
 const img = document.getElementById("person-img");
 const btn = document.getElementsByClassName("prev-btn");
+/// My Approach
+// let currentid = Math.floor(reviews.length / 2);
 
-let currentid = Math.floor(reviews.length / 2);
+// btn[0].addEventListener("click", changeperson);
+// btn[1].addEventListener("click", changeperson);
+// function changeperson(e) {
+//   if (e.target.className === "fas fa-chevron-left") {
+//     document.querySelector(".review");
+//     currentid -= 1;
+//     console.log(currentid);
+//     img.src = reviews[currentid].img;
+//     author.textContent = reviews[currentid].name;
+//     job.textContent = reviews[currentid].job;
+//     info.textContent = reviews[currentid].text;
+//   } else if (e.target.className === "fas fa-chevron-right") {
+//     currentid += 1;
+//     console.log(currentid);
+//     img.src = reviews[currentid].img;
+//     author.textContent = reviews[currentid].name;
+//     job.textContent = reviews[currentid].job;
+//     info.textContent = reviews[currentid].text;
+//   }
+// }
 
-btn[0].addEventListener("click", changeperson);
-btn[1].addEventListener("click", changeperson);
-function changeperson(e) {
-  if (e.target.className === "fas fa-chevron-left") {
-    document.querySelector(".review");
-    currentid -= 1;
-    console.log(currentid);
-    img.src = reviews[currentid].img;
-    author.textContent = reviews[currentid].name;
-    job.textContent = reviews[currentid].job;
-    info.textContent = reviews[currentid].text;
-  } else if (e.target.className === "fas fa-chevron-right") {
-    currentid += 1;
-    console.log(currentid);
-    img.src = reviews[currentid].img;
-    author.textContent = reviews[currentid].name;
-    job.textContent = reviews[currentid].job;
-    info.textContent = reviews[currentid].text;
-  }
+/// Best Approach
+const nextBtn = document.querySelector(".next-btn");
+const prevBtn = document.querySelector(".prev-btn");
+let currentitem = 0;
+
+//Load Initial item
+window.addEventListener("DOMContentLoaded", function () {
+  showPerson(currentitem);
+});
+
+//Show Person Function
+function showPerson() {
+  const item = reviews[currentitem];
+  img.src = item.img;
+  author.textContent = item.name;
+  job.textContent = item.job;
+  info.textContent = item.text;
 }
+//Show Next Person
+nextBtn.addEventListener("click", function () {
+  currentitem++;
+  if (currentitem > reviews.length - 1) {
+    currentitem = 0;
+  }
+  showPerson();
+});
+//Show Previous Person
+prevBtn.addEventListener("click", function () {
+  currentitem--;
+  if (currentitem < 0) {
+    currentitem = reviews.length - 1;
+  }
+  showPerson();
+});
 
-//////
+//Show Random Person
+const randomBtn = document.querySelector(".random-btn");
+
+randomBtn.addEventListener("click", function () {
+  currentitem = Math.floor(Math.random() * reviews.length);
+  showPerson();
+});
